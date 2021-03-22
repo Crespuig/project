@@ -25,6 +25,8 @@ public class Coche {
 
 	private String marca;
 	private String modelo;
+	
+	@Column(unique=true)
 	private String matricula;
 
 	@ManyToOne

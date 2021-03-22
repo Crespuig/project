@@ -2,6 +2,7 @@ package com.project.entities;
 
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Compra {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar fechaCompra;
 	
-	@ManyToOne
+	@ManyToOne/*(cascade=CascadeType.ALL)*/
 	private UserHector propietario;
 
 	public Compra() {

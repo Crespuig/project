@@ -13,6 +13,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,25 +46,34 @@ public class CocheController {
 
 	// Aggregate root
 	// tag::get-aggregate-root[]
+	@CrossOrigin
 	@GetMapping("/coches/listCoches")
 	List<Coche> all() {
 		return cocheRepository.findAll();
 	}
 	// end::get-aggregate-root[]
 
+	@CrossOrigin
 	@PostMapping("/coches/new")
 	Coche newCar(@RequestBody Coche newCar) {
+//		Coche cocheDatabase = (Coche) cocheRepository.findByMatricula(matricula);
+//		
+//		if(cocheDatabase.getMatricula().equals(newCar.getMatricula())) {
+//			return;
+//		}
 		return cocheRepository.save(newCar);
+
 	}
 
 	// Single item
 
+	@CrossOrigin
 	@GetMapping("/coches/{id}")
 	Coche one(@PathVariable int id) {
-
 		return cocheRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
 	}
 
+	@CrossOrigin
 	@PutMapping("/coches/{id}")
 	Coche replaceCar(@RequestBody Coche newCar, @PathVariable int id) {
 
@@ -78,20 +88,21 @@ public class CocheController {
 		});
 	}
 
+	@CrossOrigin
 	@DeleteMapping("/coches/delete/{id}")
 	void deleteCar(@PathVariable int id) {
 		cocheRepository.deleteById(id);
 	}
 
-	public List<Coche> cocheDeUnPropietario(UserHector u){
+	public List<Coche> cocheDeUnPropietario(UserHector u) {
 		return cocheRepository.findByPropietario(u);
 	}
-	
-	public List<Coche> cochesDeUnaCompra(Compra c){
+
+	public List<Coche> cochesDeUnaCompra(Compra c) {
 		return cocheRepository.findByCompra(c);
 	}
-	
-	public List<Coche> buscar(String matricula){
+
+	public List<Coche> buscar(String matricula) {
 		return cocheRepository.findByMatricula(matricula);
 	}
 
