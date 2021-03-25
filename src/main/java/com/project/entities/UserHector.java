@@ -1,6 +1,6 @@
 package com.project.entities;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -42,11 +42,10 @@ public class UserHector {
 
 	@Column(name = "avatar")
 	private String avatar;
-	
 
 	@CreatedDate
-	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar fechaAlta;
+	@Temporal(TemporalType.DATE)
+	private Date fechaAlta;
 
 	public UserHector() {
 	}
@@ -57,7 +56,7 @@ public class UserHector {
 		this.password = password;
 	}
 
-	public UserHector(String email, String nombre, String apellidos, String password, String avatar, Calendar fechaAlta) {
+	public UserHector(String email, String nombre, String apellidos, String password, String avatar, Date fechaAlta) {
 		super();
 		this.email = email;
 		this.nombre = nombre;
@@ -106,8 +105,6 @@ public class UserHector {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 	public String getAvatar() {
 		return avatar;
@@ -117,11 +114,11 @@ public class UserHector {
 		this.avatar = avatar;
 	}
 
-	public Calendar getFechaAlta() {
+	public Date getFechaAlta() {
 		return fechaAlta;
 	}
 
-	public void setFechaAlta(Calendar fechaAlta) {
+	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 
@@ -188,7 +185,5 @@ public class UserHector {
 			return false;
 		return true;
 	}
-
-	
 
 }

@@ -13,6 +13,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,12 +57,20 @@ public class CocheController {
 	@CrossOrigin
 	@PostMapping("/coches/new")
 	Coche newCar(@RequestBody Coche newCar) {
-//		Coche cocheDatabase = (Coche) cocheRepository.findByMatricula(matricula);
-//		
-//		if(cocheDatabase.getMatricula().equals(newCar.getMatricula())) {
-//			return;
-//		}
-		return cocheRepository.save(newCar);
+		List<Coche> coches = cocheRepository.findAll();
+		boolean encontrado = false;
+		for (Coche c : coches) {
+			if (c.getMatricula().equals(newCar.getMatricula())) {
+				encontrado = true;
+			}
+		}
+
+		if (!encontrado) {
+			return cocheRepository.save(newCar);
+		} else {
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Ya existe un coche con esa matrícula");
+		}
+		
 
 	}
 
@@ -74,13 +83,16 @@ public class CocheController {
 	}
 
 	@CrossOrigin
-	@PutMapping("/coches/{id}")
+	@PutMapping("/coches/update/{id}")
 	Coche replaceCar(@RequestBody Coche newCar, @PathVariable int id) {
 
 		return cocheRepository.findById(id).map(car -> {
 			car.setMarca(newCar.getMarca());
 			car.setModelo(newCar.getModelo());
 			car.setMatricula(newCar.getMatricula());
+			car.setPrecio(newCar.getPrecio());
+			car.setMotor(newCar.getMotor());
+			car.setEstado(newCar.getEstado());
 			return cocheRepository.save(car);
 		}).orElseGet(() -> {
 			newCar.setId(id);
